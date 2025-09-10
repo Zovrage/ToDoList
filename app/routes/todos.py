@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
-from app.database.db import get_session
-from app.database.models import ToDo
-from app.schemas.todo import ToDoCreate, ToDoUpdate, ToDoRead
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.database.db import get_session
+from app.database.models import ToDo
+from app.schemas.todo import ToDoCreate, ToDoUpdate, ToDoRead
 
 
 

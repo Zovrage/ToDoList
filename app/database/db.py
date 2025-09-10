@@ -1,13 +1,17 @@
+import os
+
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from collections.abc import AsyncGenerator
 
 
 
+# Абсолютный путь к БД — работает независимо от того, откуда запущен бот
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # корень проекта
+DB_PATH = os.path.join(BASE_DIR, 'database', "DataBase.db")
+# Абсолютный путь к БД
+DATABASE_URL = f"sqlite+aiosqlite:///{DB_PATH}"
 
-
-# Получение строки подключения к базе данных из настроек
-DATABASE_URL = "sqlite+aiosqlite:///./task.db"
 
 
 # Создание асинхронного движка базы данных
