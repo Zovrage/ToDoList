@@ -30,6 +30,7 @@ app.mount("/static", StaticFiles(directory=static_dir), name="static")
 templates_dir = os.path.join(os.path.dirname(__file__), "templates")
 templates = Jinja2Templates(directory=templates_dir)
 
+
 # Корневая точка для отдачи HTML страницы
 @app.get("/")
 async def root(request: Request):

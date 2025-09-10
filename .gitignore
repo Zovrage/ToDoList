@@ -26,7 +26,7 @@ pip-log.txt
 .idea/
 
 # SQLite database
-task.db
+app/database/DataBase.db
 
 # Logs
 *.log
