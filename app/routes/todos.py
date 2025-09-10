@@ -5,12 +5,7 @@ from app.schemas.todo import ToDoCreate, ToDoUpdate, ToDoRead
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-
-
-
 router = APIRouter()
-
-
 
 
 # Получение всех задач
