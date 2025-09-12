@@ -36,4 +36,3 @@ async def root(request: Request):
 @app.on_event("startup")
 async def startup():
     await init_db()
-
