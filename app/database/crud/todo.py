@@ -1,8 +1,10 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.database.models import ToDo
-from app.schemas.todo import ToDoCreate, ToDoUpdate
-from app.schemas.todo import ToDoRead
 from sqlalchemy import select
+
+from app.database.models import ToDo
+from app.schemas.todo import ToDoCreate, ToDoUpdate, ToDoRead
+
+
 
 
 
@@ -41,7 +43,6 @@ async def delete_todo(db: AsyncSession, todo_id: int) -> bool:
     await db.delete(existing_todo)
     await db.commit()
     return True
-
 
 
 

@@ -1,25 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>ToDoList</title>
     <link rel="stylesheet" href="/static/style.css">
-    <script defer src="/static/todo.js"></script>
 </head>
 <body>
 <div class="container">
     <header>
-        <h1>ToDoList</h1>
+        <div class="header-content">
+            <h1>ToDoList</h1>
+            <div class="auth-buttons">
+                {% if user %}
+                    <span class="user-info">{{ user.username }}</span>
+                    <form action="/users/logout" method="post" style="display:inline;">
+                        <button type="submit" class="auth-btn logout">Выйти</button>
+                    </form>
+                {% else %}
+                    <a href="/auth/login.html" class="auth-btn login">Вход</a>
+                    <a href="/auth/register.html" class="auth-btn register">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
     </header>
     <section class="todo-section">
-        <form class="todo-form" id="todo-form">
-            <input type="text" class="todo-input" id="todo-input" placeholder="Task title..." required>
-            <input type="text" class="todo-input" id="todo-desc" placeholder="Task description (optional)">
-            <button type="submit" class="todo-btn">Add</button>
+        {% if user %}
+        <form class="todo-form" action="/todos/create" method="post">
+            <input type="text" class="todo-input" name="title" placeholder="Название задачи..." required>
+            <input type="text" class="todo-input" name="description" placeholder="Описание задачи (небязательно)">
+            <button type="submit" class="todo-btn">Добавить</button>
         </form>
-        <ul class="todo-list" id="todo-list">
-            <!-- Задачи будут добавляться динамически -->
+        <ul class="todo-list">
+            {% for todo in todos %}
+            <li class="todo-item{% if todo.completed %} completed{% endif %}">
+                <div class="todo-flex-row">
+                    <form action="/todos/update/{{ todo.id }}" method="post" class="todo-update-form" style="flex:1;">
+                        <span class="title">
+                            <input type="text" name="title" value="{{ todo.title }}" required style="border:none;background:transparent;font-weight:600;width:100%;">
+                        </span>
+                        <span class="description">
+                            <input type="text" name="description" value="{{ todo.description or '' }}" style="border:none;background:transparent;width:100%;">
+                        </span>
+                        <span class="checkbox-wrapper">
+                            <input type="checkbox" id="completed-{{ todo.id }}" name="completed" value="true" {% if todo.completed %}checked{% endif %}>
+                            <label for="completed-{{ todo.id }}"><span class="checkbox-label">Завершено</span></label>
+                        </span>
+                        <div class="todo-actions">
+                            <button type="submit" class="action-btn update-btn">Обновить</button>
+                    </form>
+                            <form action="/todos/delete/{{ todo.id }}" method="post" style="display:inline;">
+                                <button type="submit" class="action-btn delete-btn">Удалить</button>
+                            </form>
+                        </div>
+                </div>
+            </li>
+            {% else %}
+            <li>Нет задач</li>
+            {% endfor %}
         </ul>
+        {% else %}
+        <div class="not-auth-message">
+            <p>Пожалуйста, войдите в аккаунт, чтобы просматривать и добавлять задачи.</p>
+        </div>
+        {% endif %}
     </section>
 </div>
 </body>
