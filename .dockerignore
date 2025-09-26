@@ -4,7 +4,7 @@ __pycache__/
 *.pyo
 *.pyd
 DataBase.db
-.env
+../.env
 .git
 bot/__pycache__/
 app/__pycache__/
