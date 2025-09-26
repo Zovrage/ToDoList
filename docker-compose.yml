@@ -1,7 +1,6 @@
 services:
   app:
     build: .
-    image: todolist-app
     container_name: todo_app
     ports:
       - "8000:8000"
