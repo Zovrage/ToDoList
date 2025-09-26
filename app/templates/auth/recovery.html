@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Восстановление пароля</title>
+  <title>Запрос восстановления пароля</title>
   <link rel="stylesheet" href="/static/auth/recovery.css">
 </head>
 <body>
@@ -12,10 +12,41 @@
       <h1>Восстановление пароля</h1>
     </header>
 
-    <form class="login-form">
+    <form class="login-form" action="/users/send_recovery_email" method="post">
+      {% if error %}
+        <div class="error-message" style="color: red; margin-bottom: 15px; padding: 10px; border: 1px solid red; border-radius: 4px; background-color: #ffe6e6;">
+          {{ error }}
+        </div>
+      {% endif %}
+
+      {% if success %}
+        <div class="success-message" style="color: green; margin-bottom: 15px; padding: 10px; border: 1px solid green; border-radius: 4px; background-color: #e6ffe6;">
+          {{ success }}
+        </div>
+      {% endif %}
+
+      {# Показываем прямую ссылку в режиме отладки (DEBUG_EMAIL=1) #}
+      {% if debug_link %}
+        <div style="margin-top:10px; padding:10px; border:1px dashed #888; background:#f9f9f9;">
+          <strong>Отладочная ссылка восстановления (DEV):</strong>
+          <div style="word-break: break-all; margin-top:6px;"><a href="{{ debug_link }}">{{ debug_link }}</a></div>
+        </div>
+      {% endif %}
+
+      {# Новый блок: если ссылка записана в файл логов, показываем путь к файлу #}
+      {% if reset_log_path %}
+        <div style="margin-top:10px; padding:10px; border:1px dashed #b06600; background:#fff7e6;">
+          <strong>Ссылка также сохранена в лог-файле:</strong>
+          <div style="word-break: break-all; margin-top:6px;">{{ reset_log_path }}</div>
+          <div style="margin-top:6px; color:#5a5a5a; font-size:0.9em;">
+            Если письмо не пришло — откройте файл и перейдите по ссылке или передайте её администратору.
+          </div>
+        </div>
+      {% endif %}
+
       <div class="form-group">
         <label for="email" class="form-label">Введите ваш Email</label>
-        <input type="email" id="email" class="form-input" placeholder="example@mail.com" required>
+        <input type="email" id="email" name="email" class="form-input" placeholder="example@mail.com" required>
       </div>
 
       <button type="submit" class="login-btn">Отправить ссылку</button>
