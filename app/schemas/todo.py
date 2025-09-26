@@ -1,8 +1,6 @@
 from pydantic import BaseModel
 
 
-
-
 # Базовая модель задачи
 class ToDoBase(BaseModel):
     title: str
@@ -29,4 +27,3 @@ class ToDoRead(ToDoBase):
     # Включаем поддержку ORM
     class Config:
         from_attributes = True
-
