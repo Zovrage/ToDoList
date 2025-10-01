@@ -1,4 +1,9 @@
-FROM ubuntu:latest
-LABEL authors="Zovrage"
+FROM python:3.12.8
 
-ENTRYPOINT ["top", "-b"]
+WORKDIR /app
+
+COPY . .
+
+RUN pip install -r requirements.txt
+
+CMD ["python", "main.py"]
