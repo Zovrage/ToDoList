@@ -1,3 +1,4 @@
+import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
@@ -5,11 +6,12 @@ from fastapi.responses import RedirectResponse
 
 from app.routes import router
 from app.database.db import init_db
+from app.core.config import Settings
 
 
 
 
-app = FastAPI(title="ToDo API")
+app = FastAPI(title=Settings.APP_NAME)
 
 
 
@@ -31,3 +33,7 @@ async def root():
 @app.on_event("startup")
 async def startup():
     await init_db()
+
+
+if __name__ == "__main__":
+    uvicorn.run('main:app', host="0.0.0.0", port=8000)
