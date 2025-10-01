@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    container_name: todo_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app/database/DataBase.db:/app/app/database/DataBase.db
+    restart: unless-stopped
