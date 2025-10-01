@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+DataBase.db
+.env
+.git
+bot/__pycache__/
+app/__pycache__/
+app/database/__pycache__/
+app/routes/__pycache__/
+app/schemas/__pycache__/
+app/utils/__pycache__/
