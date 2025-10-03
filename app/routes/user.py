@@ -92,7 +92,7 @@ async def login_post(
         redirect.set_cookie("user_id", str(user.id), httponly=True)
     return redirect
 
-
+# Логаут пользователя
 @router.post("/logout")
 async def logout_post(request: Request):
     redirect = RedirectResponse(url="/auth/login.html", status_code=303)

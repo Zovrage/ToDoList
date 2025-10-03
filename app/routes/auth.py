@@ -18,22 +18,22 @@ from app.database.crud.user import create_password_reset_token, get_password_res
 
 router = APIRouter()
 
-
+# Страницы для аутентификации: вход, регистрация, восстановление пароля
 @router.get("/login.html", response_class=HTMLResponse)
 async def login_page(request: Request):
     return templates.TemplateResponse(request, "auth/login.html", {})
 
-
+# Регистрация
 @router.get("/register.html", response_class=HTMLResponse)
 async def register_page(request: Request):
     return templates.TemplateResponse(request, "auth/register.html", {})
 
-
+# Восстановление пароля
 @router.get("/recovery.html", response_class=HTMLResponse)
 async def recovery_page(request: Request):
     return templates.TemplateResponse(request, "auth/recovery.html", {})
 
-
+# Обработка формы восстановления пароля
 @router.post("/recovery.html", response_class=HTMLResponse)
 async def recovery_post(
     request: Request,
@@ -74,7 +74,7 @@ async def recovery_post(
             request, "auth/recovery.html", {"error": f"Ошибка отправки email: {e}"}
         )
 
-
+# Сброс пароля
 @router.get("/reset-password", response_class=HTMLResponse)
 async def reset_password_get(request: Request, token: str, session: AsyncSession = Depends(get_session)):
     reset_token = await get_password_reset_token(session, token)
@@ -83,7 +83,7 @@ async def reset_password_get(request: Request, token: str, session: AsyncSession
         return templates.TemplateResponse(request, "auth/reset_password.html", {"error": "Ссылка недействительна или истекла."})
     return templates.TemplateResponse(request, "auth/reset_password.html", {"token": token})
 
-
+# Обработка формы сброса пароля
 @router.post("/reset-password", response_class=HTMLResponse)
 async def reset_password_post(
     request: Request,
@@ -109,7 +109,7 @@ async def reset_password_post(
     await session.commit()
     return templates.TemplateResponse(request, "auth/reset_password.html", {"success": "Пароль успешно изменён. Теперь вы можете войти."})
 
-
+# Утилита для приведения времени к UTC с учётом часового пояса
 def to_utc_aware(dt):
     if dt.tzinfo is None:
         return dt.replace(tzinfo=UTC)

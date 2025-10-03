@@ -54,7 +54,7 @@ async def update_user(db: AsyncSession, user_id: int, user: UserUpdate) -> UserR
     await db.refresh(existing_user)
     return UserRead.from_orm(existing_user)
 
-# --- Password Reset Token CRUD ---
+# Создание токена сброса пароля
 async def create_password_reset_token(db: AsyncSession, user_id: int, token: str, expires_at: datetime.datetime) -> PasswordResetToken:
     reset_token = PasswordResetToken(user_id=user_id, token=token, expires_at=expires_at)
     db.add(reset_token)
@@ -62,10 +62,12 @@ async def create_password_reset_token(db: AsyncSession, user_id: int, token: str
     await db.refresh(reset_token)
     return reset_token
 
+# Получение токена сброса пароля
 async def get_password_reset_token(db: AsyncSession, token: str) -> PasswordResetToken | None:
     result = await db.execute(select(PasswordResetToken).where(PasswordResetToken.token == token))
     return result.scalar_one_or_none()
 
+# Удаление токена сброса пароля
 async def delete_password_reset_token(db: AsyncSession, token: str) -> None:
     result = await db.execute(select(PasswordResetToken).where(PasswordResetToken.token == token))
     reset_token = result.scalar_one_or_none()
