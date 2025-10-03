@@ -2,8 +2,8 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-# Пример простой функции отправки email через SMTP
 
+# Функция для отправки email
 def send_email(to_email: str, subject: str, body: str, smtp_server: str, smtp_port: int, smtp_user: str, smtp_password: str):
     print(f"[send_email] Попытка отправить письмо на {to_email} через {smtp_server}:{smtp_port} от {smtp_user}")
     msg = MIMEMultipart()

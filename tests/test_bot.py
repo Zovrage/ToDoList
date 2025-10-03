@@ -2,6 +2,8 @@ import pytest
 
 from bot.handlers.user import command_start_handler
 
+
+# Тест для обработчика команды /start
 @pytest.mark.asyncio
 async def test_command_start_handler():
     class MockUser:

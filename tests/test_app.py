@@ -12,6 +12,8 @@ from app.database.models import User, PasswordResetToken
 from app.utils.security import get_password_hash
 
 
+
+# Тесты для веб-приложения FastAPI
 @pytest.mark.asyncio
 async def test_register_page():
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -19,6 +21,8 @@ async def test_register_page():
         assert response.status_code == 200
         assert "register" in response.text.lower() or "регистрация" in response.text.lower()
 
+
+# Проверяем, что форма регистрации присутствует
 @pytest.mark.asyncio
 async def test_register_user_and_create_todo():
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -52,6 +56,8 @@ async def test_register_user_and_create_todo():
             assert response.status_code == 200
             assert "уже существует" in response.text or "уже используется" in response.text
 
+
+# Тесты для восстановления и сброса пароля
 @pytest.mark.asyncio
 async def test_password_recovery_and_reset():
     email = "resetuser@example.com"

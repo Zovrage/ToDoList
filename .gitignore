@@ -12,6 +12,7 @@ dist/
 *.manifest
 *.spec
 .env
+config.py
 .venv/
 venv/
 ENV/

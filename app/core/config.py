@@ -1,6 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-
+# Конфигурация приложения
 class Settings(BaseSettings):
     APP_NAME: str = "ToDoList"
     DEBUG: bool = True
