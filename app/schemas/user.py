@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 
@@ -19,10 +19,7 @@ class UserRead(BaseModel):
     id: int
     username: str
     email: str
-
-    # Включаем поддержку ORM
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # Обновление пользователя - все поля необязательны

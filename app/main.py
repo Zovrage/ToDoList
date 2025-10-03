@@ -2,16 +2,19 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
+from contextlib import asynccontextmanager
 
 
 from app.routes import router
 from app.database.db import init_db
-from app.core.config import Settings
+from app.core.config import settings
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await init_db()
+    yield
 
-
-
-app = FastAPI(title=Settings.APP_NAME)
+app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
 
 
 
@@ -28,11 +31,6 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 async def root():
     return RedirectResponse(url="/todos/html")
 
-
-# Инициализация базы данных при старте приложения
-@app.on_event("startup")
-async def startup():
-    await init_db()
 
 
 if __name__ == "__main__":

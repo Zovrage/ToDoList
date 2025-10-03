@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 # Базовая модель задачи
@@ -23,7 +23,4 @@ class ToDoUpdate(BaseModel):
 # Чтение задачи - включает id и использует ORM режим
 class ToDoRead(ToDoBase):
     id: int
-
-    # Включаем поддержку ORM
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
