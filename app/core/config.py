@@ -1,15 +1,25 @@
+import os
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+from dotenv import load_dotenv
+
+
+load_dotenv()
+SMTP_USER = os.getenv('SMTP_USER')
+SMTP_PASSWORD = os.getenv('SMTP_PASSWORD')
+SMTP_SERVER = os.getenv('SMTP_SERVER')
+SMTP_PORT = os.getenv('SMTP_PORT')
 
 # Конфигурация приложения
 class Settings(BaseSettings):
     APP_NAME: str = "ToDoList"
     DEBUG: bool = True
-    BOT_TOKEN: str = "dummy"
-    SMTP_SERVER: str = "smtp.gmail.com"
-    SMTP_PORT: int = 465
-    SMTP_USER: str = "maydzi01@gmail.com"
-    SMTP_PASSWORD: str = "vdwj tbut ohcl tvat"
-    # позже добавим DATABASE_URL, SELECT_KEY, JWT_* и т.п.
+    SMTP_SERVER: str = SMTP_SERVER
+    SMTP_PORT: int = SMTP_PORT
+    SMTP_USER: str = SMTP_USER
+    SMTP_PASSWORD: str = SMTP_PASSWORD
+
 
     model_config = SettingsConfigDict(
         env_file=".env",
