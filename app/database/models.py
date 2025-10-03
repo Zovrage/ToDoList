@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
+import datetime
 
-from app.database.db import Base
+from .db import Base
 
 
 
@@ -28,3 +29,15 @@ class ToDo(Base):
     completed = Column(Boolean, default=False)
     user_id = Column(Integer, ForeignKey("users.id"))
     owner = relationship("User", back_populates="todos")
+
+
+# Модель токена восстановления пароля (PasswordResetToken)
+class PasswordResetToken(Base):
+    __tablename__ = "password_reset_tokens"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    token = Column(String, unique=True, index=True, nullable=False)
+    expires_at = Column(DateTime, nullable=False)
+
+    user = relationship("User")

@@ -20,10 +20,7 @@ async def todos_html(request: Request, session: AsyncSession = Depends(get_sessi
         if user:
             result = await session.execute(select(ToDo).where(ToDo.user_id == user.id))
             todos = result.scalars().all()
-    return templates.TemplateResponse(
-        "index.html",
-        {"request": request, "user": user, "todos": todos}
-    )
+    return templates.TemplateResponse(request, "index.html", {"user": user, "todos": todos})
 
 # Создание задачи через форму
 @router.post("/create")

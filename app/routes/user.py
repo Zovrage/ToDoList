@@ -17,7 +17,7 @@ router = APIRouter()
 # Показ страницы регистрации
 @router.get("/auth/register.html")
 async def register_get(request: Request):
-    return templates.TemplateResponse("auth/register.html", {"request": request})
+    return templates.TemplateResponse(request, "auth/register.html", {})
 
 # Создание пользователя через форму
 @router.post("/create")
@@ -33,30 +33,18 @@ async def register_post(
 ):
     # Проверка совпадения паролей
     if password != confirm_password:
-        return templates.TemplateResponse(
-            "auth/register.html",
-            {"request": request, "error": "Пароли не совпадают"}
-        )
+        return templates.TemplateResponse(request, "auth/register.html", {"error": "Пароли не совпадают"})
     # Проверка уникальности email и username (раздельно)
     result_email = await session.execute(select(User).where(User.email == email))
     result_username = await session.execute(select(User).where(User.username == username))
     existing_email = result_email.scalar_one_or_none()
     existing_username = result_username.scalar_one_or_none()
     if existing_email and existing_username:
-        return templates.TemplateResponse(
-            "auth/register.html",
-            {"request": request, "error": "Пользователь с таким email и именем уже существует"}
-        )
+        return templates.TemplateResponse(request, "auth/register.html", {"error": "Пользователь с таким email и именем уже существует"})
     elif existing_email:
-        return templates.TemplateResponse(
-            "auth/register.html",
-            {"request": request, "error": "Пользователь с таким email уже существует"}
-        )
+        return templates.TemplateResponse(request, "auth/register.html", {"error": "Email уже используется"})
     elif existing_username:
-        return templates.TemplateResponse(
-            "auth/register.html",
-            {"request": request, "error": "Пользователь с таким именем уже существует"}
-        )
+        return templates.TemplateResponse(request, "auth/register.html", {"error": "Имя пользователя уже используется"})
     # Хеширование пароля
     hashed_password = get_password_hash(password)
 
