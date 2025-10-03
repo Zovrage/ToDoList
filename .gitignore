@@ -12,13 +12,14 @@ dist/
 *.manifest
 *.spec
 .env
+config.py
 .venv/
 venv/
 ENV/
 env/
 env.bak/
 pip-log.txt
-core
+
 
 # VSCode
 .vscode/
